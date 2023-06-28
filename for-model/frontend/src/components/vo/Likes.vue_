@@ -27,7 +27,7 @@ path: frontend/src/components/vo
         },
         watch: {
         },
-        methodsL {
+        methods: {
             toggleLike(){
                 this.liked = !this.liked;
             }
