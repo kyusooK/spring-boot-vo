@@ -1,4 +1,4 @@
-fileName: Likes.vue
+fileName: Tags.vue
 path: frontend/src/components/vo
 ---
 <template>
