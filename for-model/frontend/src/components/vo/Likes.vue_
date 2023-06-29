@@ -2,9 +2,13 @@ fileName: Likes.vue
 path: frontend/src/components/vo
 ---
 <template>
-    <div @click="toggleLike">
-        <v-btn v-if="!liked" size="small" color="surface-variant" variant="text" icon="mdi-heart"></v-btn>
-        <v-btn v-if="liked" size="small" color="red" variant="text" icon="mdi-heart"></v-btn>
+    <div>
+        <v-btn v-if="!liked" @click="toggleLike()" small icon>
+            <v-icon style="color:black;" >mdi-heart-outline</v-icon>
+        </v-btn>
+        <v-btn v-else @click="toggleLike()" small icon>
+            <v-icon style="color: red;" >mdi-heart</v-icon>
+        </v-btn>
     </div>
 </template>
 
