@@ -1,57 +1,43 @@
-fileName: Tags.vue
-path: frontend/src/components/vo
----
 <template>
     <div>
-        <input type="text" v-model="chipText">
-        <button @click="addChip">Add Chip</button>
+        <v-text-field v-if="editMode" style="width: 150px" outlined type="text" v-model="chipText" @keydown.enter="addTags(chipText)">
+        </v-text-field>
+        <button v-if="editMode" @click="addTags(chipText)">
+            <v-icon>mdi-plus</v-icon>
+            Add Tag
+        </button>
         <div>
-            <v-chip
-                v-for="(chip, index) in chips"
-                :key="index"
-                @click="deleteChip(index)"
-            >
+            <v-chip v-for="(chip, index) in chips" :key="index" @click="deleteChip(index)">
                 {{ chip }}
             </v-chip>
         </div>
     </div>
-
 </template>
 
 <script>
-    export default {
-        name:"Tags",
-        data(){
-            return {
-                chipText: '',
-                chips: []
-            }
-        },
-        props: {
-            editMode: Boolean,
-            value : Object,
-            label : String,
-        },
-        created(){
-            
-        },
-        watch: {
-        },
-        methods: {
-            addChip() {
-                if (this.newChipText.trim() !== '') {
-                    this.chips.push(this.newChipText);
-                    this.newChipText = '';
-                }
-            },
-                deleteChip(index) {
-                this.chips.splice(index, 1);
-            }
+export default {
+    name: "Tags",
+    data() {
+        return {
+            chipText: '',
+            chips: []
         }
-        
+    },
+    props: {
+        editMode: Boolean,
+        value: Object,
+        label: String,
+    },
+    methods: {
+        addTags(chipText) {
+            if (chipText) {
+                this.chips.push(chipText);
+                this.chipText = '';
+            }
+        },
+        deleteChip(index) {
+            this.chips.splice(index, 1);
+        }
     }
+}
 </script>
-
-<style>
-   
-</style>
