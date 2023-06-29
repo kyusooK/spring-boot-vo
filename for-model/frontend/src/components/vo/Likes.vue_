@@ -2,7 +2,7 @@ fileName: Likes.vue
 path: frontend/src/components/vo
 ---
 <template>
-    <div>
+    <div v-if="!editMode" style="margin-top:-20px;">
         <v-btn v-if="!liked" @click="toggleLike()" small icon>
             <v-icon style="color:black;" >mdi-heart-outline</v-icon>
         </v-btn>
@@ -26,6 +26,11 @@ path: frontend/src/components/vo
             label : String,
         },
         created(){
+            if(!this.value) {
+                this.value = {
+                    'liked': false,
+                };
+            }
         },
         watch: {
         },

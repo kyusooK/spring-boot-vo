@@ -1,16 +1,19 @@
 <template>
-    <div>
-        <v-text-field v-if="editMode" style="width: 150px" outlined type="text" v-model="chipText" @keydown.enter="addTags(chipText)">
-        </v-text-field>
-        <button v-if="editMode" @click="addTags(chipText)">
-            <v-icon>mdi-plus</v-icon>
-            Add Tag
-        </button>
-        <div>
-            <v-chip v-for="(chip, index) in chips" :key="index" @click="deleteChip(index)">
-                {{ chip }}
+    <div style="margin: 0 -15px 0 -15px;">
+        <v-card-title v-if="editMode">
+            \{{label}}
+        </v-card-title>
+        <v-card-text v-if="value">
+            <div v-if="editMode" style="margin-top:-20px;">
+                 <v-text-field v-if="editMode" style="width: 150px" outlined type="text" v-model="value.tagText" @keydown.enter="addTags(tagText)">
+            </div>
+            <div v-if="!editMode">
+                <v-rating color="warning" readonly v-model="value.rate"></v-rating>
+                <v-chip v-for="(tag, index) in tags" :key="index" v-model="value.tags @click="deleteChip(index)">
+                {{ tag }}
             </v-chip>
-        </div>
+            </div>
+        </v-card-text>
     </div>
 </template>
 
@@ -19,8 +22,8 @@ export default {
     name: "Tags",
     data() {
         return {
-            chipText: '',
-            chips: []
+            tagText: '',
+            tags: []
         }
     },
     props: {
@@ -28,14 +31,23 @@ export default {
         value: Object,
         label: String,
     },
+    created(){
+            if(!this.value) {
+                this.value = {
+                    'tags': [],
+                    'tagText': '',
+                };
+            }
+
+        },
     methods: {
-        addTags(chipText) {
-            if (chipText) {
-                this.chips.push(chipText);
-                this.chipText = '';
+        addTags(tagText) {
+            if (tagText) {
+                this.tags.push(tagText);
+                this.tagText = '';
             }
         },
-        deleteChip(index) {
+        deleteTags(index) {
             this.chips.splice(index, 1);
         }
     }
