@@ -2,11 +2,9 @@ fileName: Likes.vue
 path: frontend/src/components/vo
 ---
 <template>
-    <div>
-        <v-btn prepend-icon="$vuetify" @click="toggleLike">
-            <span v-if="!liked">Like</span>
-            <span v-else>Liked</span>
-        </v-btn>
+    <div @click="toggleLike">
+        <v-btn v-if="!liked" size="small" color="surface-variant" variant="text" icon="mdi-heart"></v-btn>
+        <v-btn v-if="liked" size="small" color="red" variant="text" icon="mdi-heart"></v-btn>
     </div>
 </template>
 
