@@ -15,7 +15,7 @@ path: frontend/src/components/vo
             return {
                 liked: false,
             }
-        }
+        },
         props: {
             editMode: Boolean,
             value : Object,

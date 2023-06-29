@@ -46,7 +46,8 @@ fileName: App.vue
                     to="/" 
                     @click="goHome()"
                     style="margin-left:10px; font-size:20px; cursor:pointer;"
-	        ></span> 
+	            >
+                </span> 
 		{{/if}}
                 <v-spacer></v-spacer>
 
@@ -67,7 +68,7 @@ fileName: App.vue
                 <v-list>
 		    {{#boundedContexts}}
     		    {{#aggregates}}
-		    <v-list-item
+		            <v-list-item
                         class="px-2"
                         key="{{namePlural}}"
                         to="/{{namePlural}}"
