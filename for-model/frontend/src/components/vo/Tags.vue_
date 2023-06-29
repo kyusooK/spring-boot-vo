@@ -1,17 +1,17 @@
 <template>
     <div style="margin: 0 -15px 0 -15px;">
         <v-card-title v-if="editMode">
-            \{{label}}
+            {{label}}
         </v-card-title>
         <v-card-text v-if="value">
             <div v-if="editMode" style="margin-top:-20px;">
-                 <v-text-field v-if="editMode" style="width: 150px" outlined type="text" v-model="value.tagText" @keydown.enter="addTags(tagText)">
+                <v-text-field v-if="editMode" style="width: 150px" outlined type="text" v-model="tagText" @keydown.enter="addTags(tagText)"></v-text-field>
+                <v-btn @click="addTags(tagText)">Add tag</v-btn>
             </div>
-            <div v-if="!editMode">
-                <v-rating color="warning" readonly v-model="value.rate"></v-rating>
-                <v-chip v-for="(tag, index) in tags" :key="index" v-model="value.tags @click="deleteChip(index)">
-                {{ tag }}
-            </v-chip>
+            <div> 
+                <v-chip v-for="(tag, index) in value.tags"  v-model=value.tags :key="index" @click="deleteTags(index)">
+                    {{ tag }}
+                </v-chip>
             </div>
         </v-card-text>
     </div>
@@ -22,8 +22,7 @@ export default {
     name: "Tags",
     data() {
         return {
-            tagText: '',
-            tags: []
+            tagText: ''
         }
     },
     props: {
@@ -32,23 +31,25 @@ export default {
         label: String,
     },
     created(){
-            if(!this.value) {
-                this.value = {
-                    'tags': [],
-                    'tagText': '',
-                };
-            }
-
-        },
+        if(!this.value) {
+            this.value = {
+                'tags': [],
+            };
+        }
+    },
     methods: {
         addTags(tagText) {
+            var me = this;
+            if (!me.value.tags) {
+                me.value.tags = [];
+            }
             if (tagText) {
-                this.tags.push(tagText);
-                this.tagText = '';
+                me.value.tags.push(tagText)
+                me.tagText = '';
             }
         },
         deleteTags(index) {
-            this.chips.splice(index, 1);
+            this.value.tags.splice(index, 1);
         }
     }
 }
