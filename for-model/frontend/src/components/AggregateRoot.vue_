@@ -212,7 +212,7 @@ path: frontend/src/components
             } 
             {{/if}}
         },
-        watch:{
+        watch: {
             {{#checkVOList className}}{{/checkVOList}}
         }
         methods: {
@@ -481,14 +481,13 @@ path: frontend/src/components
     })
     window.$HandleBars.registerHelper('checkVOList', function (className) {
         if(className.endsWith("Likes")){
-            code = "value.likes.isLiked"(newVal){
+            return ""value.likes.isLiked"(newVal){
                 if(newVal){
                     this.value.isLiked = newVal;
                 }
                 this.save()
             }
-        }
-        return code
+        }"
     })
 
     window.$HandleBars.registerHelper('checkEntityMember', function (className, options) {
