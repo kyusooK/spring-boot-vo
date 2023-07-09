@@ -212,6 +212,9 @@ path: frontend/src/components
             } 
             {{/if}}
         },
+        watch:{
+            {{#checkVOList className}}
+        }
         methods: {
             selectFile(){
                 if(this.editMode == false) {
@@ -475,6 +478,17 @@ path: frontend/src/components
                 || className.endsWith("Payment") || className.endsWith("Money") || className.endsWith("Weather") || className.endsWith("Rating")){
             return options.fn(this);
         }
+    })
+    window.$HandleBars.registerHelper('checkVOList', function (className) {
+        if(className.endsWith("Likes")){
+            code = "value.likes.isLiked"(newVal){
+                if(newVal){
+                    this.value.isLiked = newVal;
+                }
+                this.save()
+            }
+        }
+        return code
     })
 
     window.$HandleBars.registerHelper('checkEntityMember', function (className, options) {
