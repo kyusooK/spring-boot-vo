@@ -213,7 +213,7 @@ path: frontend/src/components
             {{/if}}
         },
         watch:{
-            {{#checkVOList className}}
+            {{#checkVOList className}}{{/checkVOList}}
         }
         methods: {
             selectFile(){
