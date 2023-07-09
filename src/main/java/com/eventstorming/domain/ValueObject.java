@@ -68,14 +68,14 @@ window.$HandleBars.registerHelper('checkRelations', function (relations, classNa
     try {
         if(typeof relations == "undefined") {
             return
-        } else {
+        } else if(!isVo) {
             // primitive type
             if(className.includes("String") || className.includes("Integer") || className.includes("Long") || className.includes("Double") || className.includes("Float")
                     || className.includes("Boolean") || className.includes("Date")) {
                 if(className.includes("List")) {
                     return "@ElementCollection"
                 }
-            } else if(isVo) {
+            } else {
                 // ValueObject
                 if(isVO) {
                     if(className.includes("List")) {
