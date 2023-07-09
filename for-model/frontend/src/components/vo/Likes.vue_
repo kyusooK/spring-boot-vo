@@ -2,24 +2,18 @@ fileName: Likes.vue
 path: frontend/src/components/vo
 ---
 <template>
-    <div v-if="!editMode" style="margin-top:-20px;">
-        <v-btn v-if="!liked" @click="toggleLike()" small icon>
-            <v-icon style="color:black;" >mdi-heart-outline</v-icon>
-        </v-btn>
-        <v-btn v-else @click="toggleLike()" small icon>
-            <v-icon style="color: red;" >mdi-heart</v-icon>
-        </v-btn>
+    <div style="margin: 0 -15px 0 -15px;">
+        <div v-if="!editMode" style="margin-top: 0px;">
+            <v-icon v-if="!value.isLiked" v-model="value.isLiked" @click="clickLike()" style="color:black; margin-left: 15px;">mdi-heart-outline</v-icon>
+            <v-icon v-else v-model="value.isLiked" @click="clickLike()" style="color: red; margin-left: 15px;" >mdi-heart</v-icon>
+        </div>
     </div>
 </template>
 
 <script>
+    
     export default {
         name:"Likes",
-        data(){
-            return {
-                liked: false,
-            }
-        },
         props: {
             editMode: Boolean,
             value : Object,
@@ -27,16 +21,19 @@ path: frontend/src/components/vo
         },
         created(){
             if(!this.value) {
-                this.value = {
-                    'liked': false,
-                };
+                    this.value = {
+                    'isLiked': false,
+                }
             }
         },
         watch: {
+            value(newVal) {
+                this.$emit('input', newVal);
+            },
         },
         methods: {
-            toggleLike(){
-                this.liked = !this.liked;
+            clickLike(){
+                this.value.isLiked = !this.value.isLiked
             }
         }
     }
@@ -44,3 +41,4 @@ path: frontend/src/components/vo
 
 <style>
 </style>
+

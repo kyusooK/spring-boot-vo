@@ -75,7 +75,7 @@ window.$HandleBars.registerHelper('checkRelations', function (relations, classNa
                 if(className.includes("List")) {
                     return "@ElementCollection"
                 }
-            } else {
+            } else if(isVo) {
                 // ValueObject
                 if(isVO) {
                     if(className.includes("List")) {

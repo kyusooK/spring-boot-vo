@@ -1,55 +1,89 @@
+fileName: Tags.vue
+path: frontend/src/components/vo
+---
 <template>
-    <div style="margin: 0 -15px 0 -15px;">
-        <v-card-title v-if="editMode">
+    <div style="margin: 0 -15px 0 -15px;" v-if="editMode">
+        <v-card-title>
             {{label}}
         </v-card-title>
-        <v-card-text v-if="value">
-            <div v-if="editMode" style="margin-top:-20px;">
-                <v-text-field v-if="editMode" style="width: 150px" outlined type="text" v-model="tagText" @keydown.enter="addTags(tagText)"></v-text-field>
-                <v-btn @click="addTags(tagText)">Add tag</v-btn>
-            </div>
-            <div> 
-                <v-chip v-for="(tag, index) in value.tags"  v-model=value.tags :key="index" @click="deleteTags(index)">
-                    {{ tag }}
-                </v-chip>
-            </div>
-        </v-card-text>
+        <vue-tags-input
+            v-model="tag"
+            :tags="copyTags"
+            :autocomplete-items="filteredItems"
+            @tags-changed="newTags => copyTags = newTags"
+        />
+        <v-chip
+        style="background-color: #5C6BC0; color: #fff; border-radius: 2px; padding: 3px 5px; margin: 2px; font-size: .85em; height:30px;"
+        v-model="value.tag"
+        v-for="(tag, index) in value.tag" :key="index"
+        >
+            {{ tag }}
+            <v-icon  @click="deleteTag(index)" style="font-size: 15px; right: -5px; top: -8px;">mdi-close</v-icon>
+        </v-chip>
+    </div>
+    <div v-else>
+        <v-chip
+        style="background-color: #5C6BC0; color: #fff; border-radius: 2px; padding: 3px 5px; margin: 2px; font-size: .85em; height:30px;"
+        v-model="value.tag"
+        v-for="(tag, index) in value.tag" :key="index"
+        >
+            {{ tag }}
+        </v-chip>
     </div>
 </template>
 
 <script>
+import VueTagsInput from '@johmun/vue-tags-input';
+
 export default {
     name: "Tags",
+    components: {
+        VueTagsInput,
+    },
     data() {
         return {
-            tagText: ''
-        }
+            tag: '',
+            copyTags:[],
+            autocompleteItems: [],
+        };
     },
     props: {
         editMode: Boolean,
         value: Object,
         label: String,
     },
-    created(){
-        if(!this.value) {
+    created() {
+        if (!this.value) {
             this.value = {
-                'tags': [],
+                tag: [],
             };
         }
     },
-    methods: {
-        addTags(tagText) {
-            var me = this;
-            if (!me.value.tags) {
-                me.value.tags = [];
+    watch: {
+        copyTags(newVal){
+            if(!this.value.tag){
+                this.value.tag = []
             }
-            if (tagText) {
-                me.value.tags.push(tagText)
-                me.tagText = '';
+            if(newVal){
+                newVal.forEach(tag => {
+                    if(tag.text){
+                        this.value.tag.push(tag.text)
+                    }
+                });
             }
+        }
+    },
+    computed: {
+        filteredItems() {
+            return this.autocompleteItems.filter(item => {
+                return item.text.toLowerCase().indexOf(this.tag.toLowerCase()) !== -1;
+            });
         },
-        deleteTags(index) {
-            this.value.tags.splice(index, 1);
+    },
+
+    methods: {
+        deleteTag(index) {
+            this.value.tag.splice(index, 1);
         }
     }
 }
